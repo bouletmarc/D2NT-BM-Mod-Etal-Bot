@@ -1,0 +1,189 @@
+function NTMain() 
+{ 
+	Include("libs/common/NTCommon.ntl"); 		// Normal needed
+	NTC_IncludeLibs(); 				// Normal needed
+	NTC_IncludeConfig("NTBot/char_configs");	// Normal needed
+	NT_LoadConfig(); 				// Normal needed
+	NTA_Initialize(); 				// Normal needed
+
+if(LogHostiles) // If true
+{	
+	RegisterEvent(EVENT_GAMEMSG, HostileCatch); 	// Ability to read player entered and hostility message
+	Print(COLOR_3 + "HostileCatch v2.6.1 by Young_Love");
+}
+	
+	var tempLog = FileOpen("NTBot/tools/Hostile Name's/tempLog.txt", 1); // Open tempLog and erase all from last game
+		tempLog.Close(); 				// Close tempLog
+
+	if(LogHostiles)						// If true
+	{
+		tickTock();					// Start timer, and warn
+	
+		var newStart = true;				// Begin new loop
+			while(newStart)				// Start new loop
+				Delay(200);			// Infinite delay in-game
+	}
+}
+
+function HostileCatch(msg, type) 				// Read messages while delaying in game
+{ 
+	var _logAll = "stronger"; 					// Part of message when player joins game
+	if(type == 4 && msg.indexOf(_logAll) > -1) 		// If it is shown
+		{
+			var characterAndAccount = msg.split(" j"); 		// Takes everything from before the " j" from "joined" and splits
+			var getAccount = characterAndAccount[0]; 		// Holds from beginning to where it split
+			var tempLog = FileOpen("NTBot/tools/Hostile Name's/tempLog.txt", 2); // Open tempLog without deleting
+
+			Print(COLOR_1 + "Getting Potential Hostiler Info"); 	// Only bot can see
+			
+			Delay(Random(200,500)); 		// Random Delay, To increase probability of perfection
+		
+			tempLog.WriteLine(getAccount); 			// Writes the split message in tempLog (character and account name)
+			tempLog.Close(); 			// Closes tempLog
+		}
+	
+	var _hostileLog = "expressed hostility"; 			// Part of message when player hostiles
+		
+	if(msg.indexOf(_hostileLog) != -1) 				// If it is shown
+	{
+		var accountName; 						// Captures account name of hostiler
+		var _player = msg.split(" ") [0]; 				// Player name of hostiler. Splits hostility message from beggining to first space. Which will be character name
+		var player = GetPlayerUnit(); 					// Part of a project, unfinished. Perfect the hostile catch using player flag -- KOLTON HELP!
+		var playerIsHostile = GetPlayerFlag(me.gid, _player.gid, 9);	// Part of a project, unfinished. Perfect the hostile catch using player flag -- KOLTON HELP!
+				
+		if(_player) 									// If bot has character name from hostile message
+		{
+			Delay(Random(200,500));								// Random Delay, To increase probability of perfection
+				
+			var tempLog = FileOpen("NTBot/tools/Hostile Name's/tempLog.txt", 2); 		// Opens the tempLog that contains potential hostile info
+					
+			if(!tempLog) 								// If bot cant find tempLog
+				tempLog = FileOpen("NTBot/tools/Hostile Name's/tempLog.txt", 2); 		// Make sure it's opened
+					
+			while(!tempLog.eof) 							// While tempLog is open
+			{
+				Delay(Random(200,500)); 						// Random Delay, To increase probability of perfection
+				var neededLine = (tempLog.ReadLine()) 					// Reads tempLog
+
+				if(neededLine.indexOf(_player) != -1) 				// If players name is found in tempLog
+				{
+					accountName = neededLine.split("(")[1].substring(0, neededLine.split("(")[1].length -1); // Copy Character and Account 
+				}
+			}
+			tempLog.Close(); 								// Close tempLog
+				
+			if(accountName) 							// If it has account name
+			{ 
+				var permLog = FileOpen("NTBot/tools/Hostile Name's/permLog.txt", 2);			// Open permLog
+				var myDate = new Date(); 						// Date for Info
+				var time = timeStamp(); 						// Time for info
+							
+				Delay(Random(200,500)); 						// Random Delay, To increase probability of perfection
+				if(!permLog) 							// If permLog isnt open 
+					permLog = FileOpen("NTBot/tools/Hostile Name's/permLog.txt", 2); 	// Open permLog
+						
+				permLog.WriteLine("--------Hostile Information--------") 			// Write in permLog
+				permLog.WriteLine("Time Of Hostility = " + time);			 		// Write in permLog
+				permLog.WriteLine("Date Of Hostility = " + myDate.toDateString()); 		// Write in permLog
+				permLog.WriteLine("Game Of Hostility = " + me.gamename); 			// Write in permLog
+				permLog.WriteLine("Person Of Hostility = " + _player + "(" + accountName + ")");// Write in permLog
+				permLog.WriteLine("-----------------------------------"); 			// Write in permLog
+				permLog.WriteLine(" "); 							// Write in permLog
+				permLog.Close(); 								// Close permLog														// Close permLog
+				Delay(Random(10,100)); 									// Random Delay, To increase probability of perfection
+
+			}
+		}
+
+		Print(COLOR_9 + _player + COLOR_9 + " caught!"); 							// Only bot can see
+
+		if(channelName) {
+			Say(COLOR_1 + _player + " has been captured, and will be banned from channel : " + channelName + "."); 	// Says to all in game
+		}
+		Delay(Random(200,500)); 								// Random Delay, To increase probability of perfection
+
+		if(hostile_GetThenQuit) 							// If true
+		{
+			var _area = GetArea(); 							// Gets location
+			NTC_SendLogToOOG(NTC_LOG_COMMON, COLOR_1 + "Game is terminated by hostile :" + COLOR_3 + _player + "(" + accountName + ")" + COLOR_1 + " while in (" + _area.name + ")"); 	// Types in common log
+			ExitGame(); 																			// Leaves game
+		}
+		else
+		{
+			var _area = GetArea(); 							// Get location
+			NTC_SendLogToOOG(NTC_LOG_COMMON, COLOR_3 + _player + "(" + accountName + ")" + COLOR_1 + " Hostiled while in (" + _area.name + ")"); // Types in common log
+		}
+	}
+}
+		
+
+function timeStamp() // Gets correct time for permLog
+{		
+   var now    = new Date();
+   var hour   = now.getHours();
+   var minute = now.getMinutes();
+   var second = now.getSeconds();
+   var DoN = "AM";
+if(twelveHourClock)
+{
+	if (hour > 11) 
+	{ 
+		DoN = "PM"; 
+	}
+	if (hour > 12) 
+	{ 
+		hour = hour - 12;      
+	}
+	if (hour == 0) 
+	{ 
+		hour = 12;       
+	}
+	if (hour < 10) 
+	{ 
+		hour = "0" + hour;   
+	}
+}
+	if (minute < 10) 
+	{ 
+		minute = "0" + minute; 
+	}
+	if (second < 10) 
+	{ 
+		second = "0" + second; 
+	}
+	
+	var timeString = hour +	':' +  minute + ':' + second + " " + DoN;
+                            
+   return timeString;
+}
+
+function tickTock()
+{	
+	var startTick = true;
+	while(startTick)
+	{
+	   Delay(200); 								// Will run infinate delay while in game
+		var ticker = 1;							// Timer
+		while(ticker < 40)						// While timer is less than 30, keep waiting
+		{
+			Delay(1000);						// Just delay
+			ticker = ticker + 1;
+			if(ticker == 40)					// If timer = 30 
+			{
+				if(LogHostiles)					// If true. Wanted second call just to make sure
+				{
+					Say("You are being watched. You might want to take caution.");	
+					var finishStartTick = true;
+					while(finishStartTick)
+					{
+						startTick = false;
+						Delay(200);
+						break;
+					}
+				
+				}
+			}
+		}
+	break;
+	}
+}

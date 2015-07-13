@@ -1,0 +1,2 @@
+[Fri 09/02/11 01:37:01 <QcPallyO_o> ] Item Error: Item appears to be in log already (Essence tordue de souffrance, Essence[2])
+[Fri 09/02/11 01:37:50 <QcPallyO_o> ] Item Error: Item appears to be in log already (Rune Ko, Rune[2])

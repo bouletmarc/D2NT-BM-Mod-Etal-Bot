@@ -1,0 +1,95 @@
+10
+
+dir
+896
+http://www.d2etal.com/svn/Trunk/D2NT/scripts/logs
+http://www.d2etal.com/svn
+
+
+
+2011-07-29T19:28:57.586907Z
+844
+Ethic
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+572c6ef7-b15d-470e-bb37-9c23eb751afd
+
+Item Log
+dir
+
+CraftLog
+dir
+
+testlog
+dir
+
+namelog
+dir
+
+DPS
+dir
+
+CompletedGames.txt
+file
+
+
+
+
+2011-08-27T20:00:12.353107Z
+d41d8cd98f00b204e9800998ecf8427e
+2011-02-09T13:04:57.788754Z
+498
+Ethic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0
+
+skiplog
+dir
+
+messagecomands
+dir
+
+OFPTLog
+dir
+
+shrinelog
+dir
+
+errorlog
+dir
+
+loc
+dir
+

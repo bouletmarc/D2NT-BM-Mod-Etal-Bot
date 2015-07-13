@@ -1,0 +1,60 @@
+//Necro starter, used to quickly get some skeletons from the dead bodies in pindlegarden!
+//The part moving to and through the red portal humbly stolen from Etals Pindleskin script
+//summoningpart is written by Chairman
+
+function NTMain()
+{
+	Include("libs/common/NTCommon.ntl");
+	NTC_IncludeLibs();
+	NTC_IncludeConfig("NTBot/char_configs");
+
+	NT_LoadConfig();
+	NTSI_LoadNIPFiles("NTBot/item_configs");
+
+	NTA_Initialize();
+
+	if(!NTTM_CheckAct())
+	{
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_CheckAct()");
+		return;
+	}
+
+	NTTMGR_TownManager();
+
+	if(!NTTM_CheckAct(5))
+	{
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_CheckAct()");
+		return;
+	}
+
+	if(!NTTM_TownMove("portal"))
+	{
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+		return;
+	}
+
+	if(!NTM_UsePortal("Portal", 121))
+	{
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTM_UsePortal()");
+		return;
+	}
+
+	//You're in pindlegarden - let's get some skeletons!
+
+	NTP_CastBC(true) //Only cast BC to get the extra skill for summoning
+	NTM_MoveTo(me.areaid, 10060, 13277);
+
+	var summonfailcount = 0
+		
+	do {
+		var _deadbody = NTC_FindUnit(NTC_UNIT_MONSTER);
+		if (_deadbody == "[object Unit]") { //This avoids a game crash when the bodies have awoken!
+			summonfailcount++
+			}
+		else { 
+			NTA_SkeletonArmy(NTConfig_SkeletonArmy) //Found a dead guy? summon a skeleton from him!
+		}
+	} while(NTA_SkeletonArmy(NTConfig_SkeletonArmy) && summonfailcount < NTConfig_SkeletonArmy)
+		
+	NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+}

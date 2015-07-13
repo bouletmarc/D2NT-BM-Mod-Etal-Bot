@@ -1,0 +1,25 @@
+function NTMain() {
+	Include("libs/common/NTCommon.ntl");
+	NTC_IncludeLibs();
+	NTC_IncludeConfig("NTBot/char_configs");
+
+	NT_LoadConfig();
+
+	NTA_Initialize();
+
+	Print(COLOR_1 + "WARNING THIS IS NOT SAFE FOR BOTTING");
+	Delay(555);
+	Print(COLOR_1 + "YOU WILL LOOSE YOUR EQUIPTMENT");
+
+	SetUIState(0x24, true);
+	SetUIState(0x01, true);
+	for (var i = 0; i < NTConfig_StackAmmount; i++) {
+		me.ClickMercItem(4);
+		Delay(500)
+		me.ClickItem(4);
+		Delay(500)
+		me.ClickMercItem(4);
+		Delay(500)
+	}
+	NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+}

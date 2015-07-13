@@ -1,0 +1,110 @@
+Include('libs/common/NTCommon.ntl');
+NTC_IncludeLibs();
+var _primaryConfig = null;
+var _endTime = null;
+function NTMain()
+{
+	Include('NTBot/char_configs/NTConfig.ntl');
+	Include('NTBot/char_configs/NTOogConfig.ntl');
+	_endTime = GetTickCount() + NTOogConfig.gameMinLength;
+	Delay(1000);
+	RegisterEvent(EVENT_SCRIPTMSG, _ScriptMessageHandler);
+	NTC_SendMsgToScript('NTMule.ntj', 'GetPrimaryConfig|NTPickup.ntj');
+	var _counter = 0;
+	while (_counter < 10 && !_primaryConfig) {
+		Delay(500);
+		_counter++;
+	}
+	if (!_primaryConfig) NTConfig_NIPFilePath = ['PickupEverything.nip']; 
+	else Include('NTBot/char_configs/' + _primaryConfig);
+	NTConfig_Columns[0] = [1,1,1,1,1,1,1,1,1,1];
+	NTConfig_Columns[1] = [1,1,1,1,1,1,1,1,1,1];
+	NTConfig_Columns[2] = [1,1,1,1,1,1,1,1,1,1];
+	NTConfig_Columns[3] = [1,1,1,1,1,1,1,1,1,1];
+	NTSI_LoadNIPFiles('NTBot/item_configs');
+
+	NTConfig_SnagRange = 40;
+	NTConfig_FreeSpace = 2;
+	NTTM_CheckAct(1);
+	NTTM_TownMove('stash');
+	var _stash;
+	for (var _ctr=0;_ctr<5; _ctr++) {
+		if (!_ItemsOnGround()) {
+			NTU_TLInventory();
+			while (GetTickCount() < _endTime) {
+				SetStatusText('Finished muling. Time until NG (' +
+						parseInt((_endTime - GetTickCount())/1000) + 's)');
+				Delay(1000);
+			}
+			NTC_SendMsgToScript('NTMule.ntj', 'DoneMuling');
+			ExitGame();
+		}
+		NTTM_TownMove('stash');
+		_stash = NTC_FindUnit(NTC_UNIT_OBJECT, NTC_UNIT_STASH);
+		if (!NTT_DoInteract(_stash)) NTT_DoInteract(_stash);
+		if (!NTT_ManageStash()) NTT_ManageStash();
+		Delay(1500);
+		me.Cancel(1);
+		if (!_GrabItems() && _ItemsOnGround() && !_GrabItems()) { 
+			NTU_TLInventory();
+			while (GetTickCount() < _endTime) {
+				SetStatusText('Waiting before next mule(' +
+						parseInt((_endTime - GetTickCount())/1000) + 's)');
+				Delay(1000);
+			}
+			NTC_SendMsgToScript('NTMule.ntj', 'NextMule');
+			ExitGame();
+		}
+	}
+	NTU_TLInventory();
+	while (GetTickCount() < _endTime) {
+		SetStatusText('Finished muling. Time until NG (' +
+				parseInt((_endTime - GetTickCount())/1000) + 's)');
+		Delay(1000);
+	}
+	NTC_SendMsgToScript('NTMule.ntj', 'DoneMuling');
+	ExitGame();
+}
+
+function _GrabItems()
+{
+	var _item = NTC_FindUnit(NTC_UNIT_ITEM);
+	var _itemsChecked = [];
+	if(!_item) return false;
+	var _pickedOne = false;
+	do {
+		if(_item.mode == 3 || _item.mode == 5) {
+			if(NTSI_IsIgnoredItemInt(_item.classid))
+				continue;
+
+			if (NTSI_CheckItem(_item, false)) {
+				_itemsChecked.push(new NTSI_ItemInt(_item, true));
+			}
+		}
+	} while(_item.GetNext());
+	var _checkedItem = null;
+	while (_itemsChecked.length) {
+		_checkedItem = _itemsChecked.pop();
+		_item = NTC_FindUnit(NTC_UNIT_ITEM, _checkedItem.GID);
+		if (NTT_CheckSpace(_item.xsize, _item.ysize)) {
+			if (NTSI_PickUpItemInt(_item)) _pickedOne = true;
+		}
+		else if (!NTT_CheckSpace(1, 1)) return _pickedOne;
+	}
+	return _pickedOne;
+}
+
+var _ItemsOnGround = function() {
+	var _item = NTC_FindUnit(NTC_UNIT_ITEM);
+	if (!_item) return false;
+	do {
+		if(_item.mode == 3 || _item.mode == 5)
+			return true;
+	} while(_item.GetNext());
+	return false;
+};
+
+var _ScriptMessageHandler = function(msg) {
+	var _splitMessage = msg.split('|');
+	if (_splitMessage[0] == 'GetPrimaryConfig') _primaryConfig = _splitMessage[1];
+};

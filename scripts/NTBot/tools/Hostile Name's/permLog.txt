@@ -1,0 +1,13 @@
+===================================
+-- Example of what it will look
+-- like when you catch a hostile.
+-- You can delete this.
+===================================
+   
+--------Hostile Information--------
+Time Of Hostility = 11:11 pm
+Date Of Hostility = 11/11/2011
+Game Of Hostility = GamE Test-01			
+Person Of Hostility = hOstile(catch)
+-----------------------------------	
+ 		

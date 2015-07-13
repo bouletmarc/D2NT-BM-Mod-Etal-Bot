@@ -1,0 +1,918 @@
+var boss = [Corpsefire, Bishibosh, RavenAndBreak, Coldcrow, RakanishuAndGriswold, Treehead, Countess, Smith, BoneAsh, Andariel, Radament, CreepingFeature, BloodWitch, Coldworm, DarkElder, FireEyeAndSummoner, Duriel];
+//act1 working
+//Corpsefire, Bishibosh, RavenAndBreak, Coldcrow, RakanishuAndGriswold, Treehead, Countess, Smith, BoneAsh, Andariel
+//act2 working
+//, Radament, CreepingFeature, BloodWitch, Coldworm, DarkElder, FireEyeAndSummoner, Duriel
+function NTMain(){
+
+	Include("libs/common/NTCommon.ntl");
+	NTC_IncludeLibs();
+	NTC_IncludeConfig("NTBot/char_configs");
+
+	NT_LoadConfig();
+	NTSI_LoadNIPFiles("NTBot/item_configs");
+
+	NTA_Initialize();
+	
+	for(var i = 0; i < boss.length; i++){
+		boss[i]();
+	}
+	
+	NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+}
+function Corpsefire() {
+	TownShit("exit", 1);
+	NTC_PingDelay(200);	
+	NTTM_OutOfAct1();
+	NTP_DoPrecast();
+	stairs(8, 2);
+	movekillm(774, 3319);
+	afterkill();
+}
+function Bishibosh() {
+	TownShit();
+	wpbo(3);
+	movekillm(734, 2869);
+	afterkill();
+}
+function RavenAndBreak() {	
+	TownShit();
+	wpbo(3);
+	NTM_MoveToPresetUnit(17, NTC_UNIT_TILE, 7, 8, 0);
+	NTA_KillMonster(GetLocaleString(3111));
+	afterkill();
+	if(NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)){
+		NTTMGR_VisitTown();
+	}
+	stairs(18);
+	NTP_DoPrecast();
+	movekillm(735, 2870);
+	afterkill();
+}
+function Coldcrow() {
+	TownShit();
+	wpbo(3);
+	stairs(9, 3);
+	movekillm(736, 2871);
+	afterkill();
+}
+function RakanishuAndGriswold() {
+	TownShit();
+	wpbo(4);
+	movekillm(737, 2872);
+	afterkill();
+	NTM_UsePortal("Portal", 38);
+	if(NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)){
+		NTTMGR_VisitTown();
+	}
+	movekillm(739, 2874);
+	afterkill();
+}
+function Treehead() {
+	TownShit();
+	wpbo(5);
+	movekillo(30, 2873);
+	afterkill();
+}
+function Countess() {
+	TownShit();
+	wpbo(6);
+	for(var i = 0 ; i < 6 ; i++){
+		stairs(20+i);
+	}
+	movekillm(740, 2875);
+	afterkill();
+}
+function Smith() {
+	TownShit()
+	wpbo(27)
+	movekillo(108, 2889, 28);
+	afterkill();
+}
+// fucking jail issues talk to stair or kolton for fix i hope
+/*
+function Pitspawn() {
+	var jailfail = false;
+	TownShit();
+	wpbo(29);
+	var _mex = me.x;
+	var _mey = me.y;
+	while(1){
+		NTM_WalkTo(me.x + 15)
+		if((_mex != me.x) || (_mey != me.y)){
+			break;
+		}
+		NTM_WalkTo(me.x - 15)
+		if((_mex != me.x) || (_mey != me.y)){
+			break;
+		}
+		NTM_WalkTo(me.y + 15)
+		if((_mex != me.x) || (_mey != me.y)){
+			break;
+		}
+		NTM_WalkTo(me.y - 15)
+		if((_mex != me.x) || (_mey != me.y)){
+			break;
+		}
+		if((_mex == me.x) || (_mey == me.y)){
+			jailfail = true;
+			Print("failed to move in jail")
+			break;
+		}
+	}
+	if(!jailfail){
+		stairs(30);
+		movekillm(741, 2876);
+		afterkill();
+	}
+}*/
+function BoneAsh() {
+	TownShit();
+	wpbo(32);
+	movekillm(743, 2878, 33)
+	afterkill();
+}
+function Andariel() {
+	TownShit();
+	wpbo(35);
+	for(var i = 0 ; i < 2 ; i++){
+		stairs(36+i);
+	}
+	movekillm(156, 3021);
+	afterkill();
+}	
+function Radament(){
+	TownShit();
+	wpbo(48);
+	stairs(49);
+	movekillm(744, 2879);
+	afterkill();
+}
+function CreepingFeature() {
+	TownShit(); // exit function for act 2 is bugged so we have to go the long way
+	wpbo(42);
+	stairs(55, 41);
+	stairs(59)
+	movekillm(748, 2883);
+	afterkill();
+}
+function BloodWitch() {
+	TownShit();
+	wpbo(57);
+	stairs(60);
+	movekillm(745, 2880);
+	afterkill();
+}
+function Coldworm() {
+	TownShit();
+	wpbo(43)
+	for(var i = 0 ; i < 3 ; i++){
+		stairs(62+i);
+	}
+	movekillm(749, 2884);
+	afterkill();
+}
+function DarkElder() {
+	TownShit();
+	wpbo(44)
+	movekillm(751, 2886);
+	afterkill();
+}
+function FireEyeAndSummoner() {
+	TownShit();
+	wpbo(74)
+	NTM_MoveToPresetUnit(me.areaid, NTC_UNIT_OBJECT, 298)
+	NTM_TakeUnit(NTC_UNIT_OBJECT, 298)
+	movekillm(750, 2885);
+	afterkill();
+	NTM_MoveToPresetUnit(me.areaid, NTC_UNIT_OBJECT, 298)
+	NTM_TakeUnit(NTC_UNIT_OBJECT, 298)
+	if(NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)){
+		NTTMGR_VisitTown();
+	}
+	movekillm(250, 2887);
+	afterkill();
+}
+function Duriel() {
+	var _tombs;
+	var _unit;
+	
+	TownShit();
+	wpbo(46)
+	_tombs = GetRoom();
+	if(!_tombs){
+		NTC_SendMsgToScript("NTBotGame.ntj", "GetRoom()");
+		return;
+	}
+	NTM_MoveToPresetUnit(me.areaid, NTC_UNIT_TILE, _tombs.correcttomb-28);
+	_unit = NTC_FindUnit(NTC_UNIT_TILE, _tombs.correcttomb-28, 5);
+	if(!_unit){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTC_FindUnit()");
+		return;
+	}
+	if(!NTM_TakeStair(_unit.subareaid)){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeStair()");
+		return;
+	}
+	NTM_MoveToPresetUnit(me.areaid, NTC_UNIT_OBJECT, 152, -2, 2);
+	afterkill();
+	if(NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)){
+		NTTMGR_VisitTown();
+	}
+	NTC_FindUnit(NTC_UNIT_OBJECT, 100, 10);
+	NTM_TakeUnit(NTC_UNIT_OBJECT, 100);
+	NTA_KillMonster(211);
+	afterkill();
+}
+/*
+function Sarina() {
+		if (NTConfig_SarinaChest) {
+			NTM_TravelTO(79)
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in Lower Kurast");
+			Print(COLOR_5 + "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+			NTM_TravelTO(80)
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in Kurast Bazaar");
+			Print(COLOR_5 + "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+		NTM_TravelTO(94);
+		if (NTConfig_CheckSafe) {
+			if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+				NTTMGR_VisitTown();
+			}
+		}
+		Print(COLOR_5 + "Precasting");
+		NTP_DoPrecast();
+		Print(COLOR_8 + "Going to kill Battlemaid");
+		var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 758);
+		NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 0, 0);
+		if (NTConfig_Funnytext) {
+				Sarinatext();
+			}
+		if (!NTA_KillBoss(getLocaleString(2865))) 
+			return false;
+		if (NTConfig_ClearPosition) 
+			NTA_ClearPosition();
+		NTSI_PickItems();
+	return true;
+}
+function Icehawk() {
+		if (NTConfig_IcehawkChest) {
+			NTM_TravelTO(92)
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in Sewers level 1");
+			Print(COLOR_5 + "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+			NTM_TravelTO(93)
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in Sewers level 2");
+			Print(COLOR_5 + "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+		Print(COLOR_8  +  "Going to Sewers 1");
+		NTM_TravelTO(92);
+		if (NTConfig_CheckSafe) {
+			if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+				NTTMGR_VisitTown();
+			}
+		}
+		Print(COLOR_5  +  "Precasting");
+		NTP_DoPrecast();
+		Print(COLOR_8  +  "Going to kill Icehawk");
+		var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 759);
+		NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 3, 3);
+				if (NTConfig_Funnytext) {
+				Icehawktext();
+			}
+		if (!NTA_KillBoss(getLocaleString(2864))) 
+			return false;
+		if (NTConfig_ClearPosition) 
+			NTA_ClearPosition();
+		NTSI_PickItems();
+	return true;
+}
+function Sszark() {
+		Print(COLOR_8  +  "Going to Spider cavern");
+		NTM_TravelTO(85);
+		if (NTConfig_CheckSafe) {
+			if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+				NTTMGR_VisitTown();
+			}
+		}
+		if (NTConfig_SszarkChest) {
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in Spider Caverns");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+		Print(COLOR_5  +  "Precasting");
+		NTP_DoPrecast();
+		var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 755);
+		NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 1, 1);
+		if (NTConfig_Funnytext) {
+				Sszarktext();
+			}
+		if (!NTA_KillBoss(getLocaleString(2868))) 
+			return false;
+		if (NTConfig_ClearPosition) 
+			NTA_ClearPosition();
+		NTSI_PickItems();
+	return true;
+}
+function Stormtree() {
+		Print(COLOR_8  +  "Going to Flayer Jungle");
+		NTM_TravelTO(78);
+		if (NTConfig_CheckSafe) {
+			if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+				NTTMGR_VisitTown();
+			}
+		}
+		if (NTConfig_StormtreeChest) {
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in the Flayer Jungle");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+		Print(COLOR_5  +  "Precasting");
+		NTP_DoPrecast();
+		Print(COLOR_8  +  "Going to kill Stormtree");
+		var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 757);
+		NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 0, 0);
+		if (NTConfig_Funnytext) {
+				Stormtreetext();
+			}
+		if (!NTA_KillBoss(getLocaleString(2866))) 
+			return false;
+		if (NTConfig_ClearPosition) 
+			NTA_ClearPosition();
+		NTSI_PickItems();
+	return true;
+}
+function Endugu() {
+		if (NTConfig_CheckSafe) {
+			if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+				NTTMGR_VisitTown();
+			}
+		}
+		if (NTConfig_EnduguChest) {
+			NTM_TravelTO(88)
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in the Flayer dungeon level 1");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+			NTM_TravelTO(89)
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in the Flayer dungeon level 2");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+			NTM_TravelTO(91)
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in the Flayer dungeon level 3");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+		Print(COLOR_8  +  "Going to Endugu")
+		NTM_TravelTO(91)
+		Print(COLOR_5  +  "Precasting");
+		NTP_DoPrecast();
+		var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 756);
+		NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 3, 3);
+		if (NTConfig_Funnytext) {
+				Endugutext();
+			}
+		if (!NTA_KillBoss(getLocaleString(2867))) 
+			return false;
+		if (NTConfig_ClearPosition) 
+			NTA_ClearPosition();
+		NTSI_PickItems();
+	return true;
+}
+function Mephisto() {
+		if (NTConfig_MephistoChest) {
+			NTM_TravelTO(101)
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in Durance level 2");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+		Print(COLOR_8  +  "Going to Durance 3");
+		NTM_TravelTO(102);
+		if (NTConfig_CheckSafe) {
+			if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+				NTTMGR_VisitTown();
+			}
+		}
+		Print(COLOR_5  +  "Precasting");
+		NTP_DoPrecast();
+		if (NTConfig_Council) {
+		Print(COLOR_11  +  "Killing Council");
+		NTM_MoveTo(17595, 8015);
+		NTA_KillBoss(getLocaleString(2859)) //Wyand Voidbringer
+		NTA_ClearPosition();
+		NTA_ClearPosition(20);
+        NTSI_PickItems();
+		
+		NTM_MoveTo(17629, 8054);
+		NTA_KillBoss(getLocaleString(2861)) //Bremm Sparkfist
+		NTA_KillBoss(getLocaleString(3139)) //Council Member
+		NTA_KillBoss(getLocaleString(3139)) //Council Member
+		NTA_KillBoss(getLocaleString(3139)) //Council Member
+		NTA_KillBoss(getLocaleString(3139)) //Council Member
+		NTA_ClearPosition();
+		NTA_ClearPosition(20);
+        NTSI_PickItems();
+		NTA_ClearPosition();
+		NTSI_PickItems();
+		
+		NTM_MoveTo(17600, 8123);
+		NTA_KillBoss(getLocaleString(2858)) //Maffer Dragonhand
+		NTA_ClearPosition(20);
+		NTA_ClearPosition();
+        NTSI_PickItems();	
+		}
+		Print(COLOR_8  +  "Going to kill Mephisto");
+   if (NTConfig_Moat) {
+		NTM_MoveTo(17560, 8072);
+		delay(1500);
+		NTM_MoveTo(17563, 8072)
+		delay(500);
+		NTM_MoveTo(17585, 8095)
+		delay(1500);
+		NTM_MoveTo(17611, 8085)
+		Print(COLOR_1  +  "Killing Mephisto");
+		NTA_KillBoss(getLocaleString(3062))
+	}
+	else {
+		NTM_MoveTo(17565, 8070); 
+		Print(COLOR_1  +  "Killing Mephisto");
+		NTA_KillBoss(getLocaleString(3062))
+	}
+		if (NTConfig_Funnytext) {
+				Mephistotext();
+			}
+		if (!NTA_KillBoss(getLocaleString(3062))) 
+			return false;
+		if (NTConfig_ClearPosition) 
+			NTA_ClearPosition();
+		NTSI_PickItems();
+		if (NTConfig_MephistoChest) {
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in Durance level 3");
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+	return true;
+}
+function Izual() {
+		Print(COLOR_8  +  "Going to Plains of Despair");
+		NTM_TravelTO(105);
+		if (NTConfig_CheckSafe) {
+			if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+				NTTMGR_VisitTown();
+			}
+		}
+		if (NTConfig_IzualChest) {
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in Plains of Despair");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+		Print(COLOR_5  +  "Precasting");
+		NTP_DoPrecast();
+		Print(COLOR_8  +  "Going to kill Izual");
+		var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 256);
+		NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 3, 3);
+		if (NTConfig_Funnytext) {
+				Izualtext();
+			}
+		if (!NTA_KillBoss(256)) 
+			return false;
+		if (NTConfig_ClearPosition) 
+			NTA_ClearPosition();
+		NTSI_PickItems();
+	return true;
+}
+function Hephasto() {
+		Print(COLOR_8  +  "Going to River of Flames");
+		NTM_TravelTO(107);
+		if (NTConfig_CheckSafe) {
+			if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+				NTTMGR_VisitTown();
+			}
+		}
+		if (NTConfig_HephastoChest) {
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in the River of flames");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+		Print(COLOR_5  +  "Precasting");
+		NTP_DoPrecast();
+		Print(COLOR_8  +  "Going to kill Hephasto");
+		var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 775);
+		NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 3, 3);
+		if (NTConfig_Funnytext) {
+				Hephastotext();
+			}
+		if (!NTA_KillBoss(getLocaleString(1067))) 
+			return false;
+		if (NTConfig_ClearPosition) 
+			NTA_ClearPosition();
+		NTSI_PickItems();
+	return true;
+}
+function DacFarren() {
+			NTM_TravelTO(110);
+			if (NTConfig_DacFarrenChest) {
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in Bloody Foothills");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			
+			Print(COLOR_8  +  "Going to Dac Farren");
+			var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 782);
+			NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 1, 1);
+			if (NTConfig_Funnytext) {
+				DacFarrentext();
+			}
+			if (!NTA_KillBoss(getLocaleString(22501))) 
+				return false;
+			if (NTConfig_ClearPosition) 
+				NTA_ClearPosition();
+			NTSI_PickItems();
+		return true;
+	}
+function Shenk() {
+			NTM_TravelTO(110);
+			if (NTConfig_CheckSafe) {
+				if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+					NTTMGR_VisitTown();
+					return;
+				}
+			}
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 776);
+			NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 1, 1);
+			if (NTConfig_Funnytext) {
+				Shenktext();
+			}
+			if (!NTA_KillBoss(getLocaleString(22435))) 
+				return false;
+			if (NTConfig_ClearPosition) 
+				NTA_ClearPosition();
+			NTSI_PickItems();
+		return true;
+	}
+function Eldritch() {
+			Print(COLOR_8  +  "Going to Frigid");
+			NTM_TravelTO(111);
+			if (NTConfig_CheckSafe) {
+				if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+					NTTMGR_VisitTown();
+					return;
+				}
+			}
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			Print(COLOR_8  +  "Going to kill Eldritch");
+			var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 783);
+			NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 1, 3);
+			if (NTConfig_Funnytext) {
+				Eldrichtext();
+			}
+			if (!NTA_KillBoss(getLocaleString(22500))) 
+				return false;
+			if (NTConfig_ClearPosition) 
+				NTA_ClearPosition();
+			NTSI_PickItems();
+			if (NTConfig_EldritchChest) {
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in Frigid");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+		return true;
+	}
+function Eyeback() {
+			Print(COLOR_8  +  "Going to Frigid");
+			NTM_TravelTO(111);
+			if (NTConfig_CheckSafe) {
+				if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+					NTTMGR_VisitTown();
+					return;
+				}
+			}
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			Print(COLOR_8  +  "Going to kill Eyeback");
+			var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 784);
+			NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 1, 1);
+			if (NTConfig_Funnytext) {
+				Eyebacktext();
+			}
+			if (!NTA_KillBoss(getLocaleString(22499))) 
+				return false;
+			if (NTConfig_ClearPosition) 
+				NTA_ClearPosition();
+			NTSI_PickItems();
+		return true;
+	}
+function Sharptooth() {
+			Print(COLOR_8  +  "Going to Frigid");
+			NTM_TravelTO(111);
+			if (NTConfig_CheckSafe) {
+				if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+					NTTMGR_VisitTown();
+					return;
+				}
+			}
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			Print(COLOR_8  +  "Going to kill Sharptooth");
+			var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 790);
+			NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 1, 1);
+			if (NTConfig_Funnytext) {
+				Sharptoothtext();
+			}		
+			if (!NTA_KillBoss(getLocaleString(22493))) 
+				return false;
+			if (NTConfig_ClearPosition) 
+				NTA_ClearPosition();
+			NTSI_PickItems();
+		return true;
+	}
+function ThreshSocket() {
+			Print(COLOR_8  +  "Going to Arreat Plateau");
+			NTM_TravelTO(112);
+			if (NTConfig_CheckSafe) {
+				if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+					NTTMGR_VisitTown();
+					return;
+				}
+			}
+			if (NTConfig_ThreshSocketChest) {
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in Arreat Plateau");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			Print(COLOR_8  +  "Going to kill Thresh Socket");
+			var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 785);
+			NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 1, 3);
+			if (NTConfig_Funnytext) {
+				ThreshSockettext();
+			}
+			if (!NTA_KillBoss(getLocaleString(22498))) 
+				return false;
+			if (NTConfig_ClearPosition) 
+				NTA_ClearPosition();
+			NTSI_PickItems();
+		return true;
+	}
+function Frozenstein() {
+			Print(COLOR_8  +  "Going to Frozen River");
+			NTM_TravelTO(114);
+			if (NTConfig_CheckSafe) {
+				if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+					NTTMGR_VisitTown();
+					return;
+				}
+			}
+			if (NTConfig_FrozensteinChest) {
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in Frozen river");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 793);
+			NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 1, 1);
+			if (NTConfig_Funnytext) {
+				Frozensteintext();
+			}
+			if (!NTA_KillBoss(getLocaleString(22504))) 
+				return false;
+			if (NTConfig_ClearPosition) 
+				NTA_ClearPosition();
+			NTSI_PickItems();
+		return true;
+	}
+function Bonesaw(){
+			Print(COLOR_8  +  "Going to Glacial Trail");
+			NTM_TravelTO(115);
+			if (NTConfig_CheckSafe) {
+				if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+					NTTMGR_VisitTown();
+					return;
+				}
+			}
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			Print(COLOR_8  +  "Going to kill Bonesaw");
+			var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 781);
+			NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 0, 0);
+			if (NTConfig_Funnytext) {
+				Bonesawtext();
+			}
+			if (!NTA_KillBoss(getLocaleString(22502))) 
+				return false;
+			if (NTConfig_ClearPosition) 
+				NTA_ClearPosition();
+			NTSI_PickItems();
+		return true;
+	}
+function Snapchip() {
+			Print(COLOR_8  +  "Going to Icy Cellar");
+			NTM_TravelTO(119);
+			if (NTConfig_CheckSafe) {
+				if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+					NTTMGR_VisitTown();
+					return;
+				}
+			}
+			if (NTConfig_SnapchipChest) {
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in the Icy Cellar");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 787);
+			NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 3, 3);
+			if (NTConfig_Funnytext) {
+				Snapchiptext();
+			}
+			if (!NTA_KillBoss(getLocaleString(22496))) 
+				return false;
+			if (NTConfig_ClearPosition) 
+				NTA_ClearPosition();
+			NTSI_PickItems();
+		return true;
+	}
+function Pindleskin() {
+			Print(COLOR_8  +  "Going to Nihlathak's Temple");
+			if (!NTTM_CheckAct(5)) 
+				return false;
+			if (!NTTM_TownMove("portal")) 
+				return false;
+			if (!NTM_UsePortal("Portal", 121)) 
+				return false;
+			if (NTConfig_CheckSafe) {
+				if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+					NTTMGR_VisitTown();
+					return;
+				}
+			}
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			Print(COLOR_8  +  "Going to kill Pindleskin");
+			var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 786);
+			NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 3, 3);
+			if (NTConfig_Funnytext) {
+				Pindleskintext();
+			}
+			if (!NTA_KillBoss(getLocaleString(22497))) 
+				return false;
+			if (NTConfig_ClearPosition) 
+				NTA_ClearPosition();
+			NTSI_PickItems();
+		return true;
+	}
+function Nihlathak(){
+		Print(COLOR_8  +  "Going to Halls of Vaught");
+		NTM_TravelTO(124);
+		if (NTConfig_CheckSafe) {
+			if (NTTMGR_CheckSafe(NTConfig_CheckSelfSafe, NTConfig_CheckMercSafe)) { 
+				NTTMGR_VisitTown();
+			}
+		}
+		if (NTConfig_NihlathakChest) {
+			Print(me.name + "-" + COLOR_8 + "is Grabbing all the chests in Halls of Vaught");
+			Print(COLOR_5  +  "Precasting");
+			NTP_DoPrecast();
+			if (NTConfig_Funnytext) {
+				Funnytext();
+			}
+			openChestsInArea()
+		}
+		Print(COLOR_5  +  "Precasting");
+		NTP_DoPrecast();
+		Print(COLOR_8  +  "Going to kill Nihlathak");
+		var _unit = getPresetUnits(me.area, NTC_UNIT_MONSTER, 794);
+		NTM_MoveToObject(NTC_UNIT_MONSTER, _unit[0].id, _unit[0].id, 1, 1);
+		if (NTConfig_Funnytext) {
+				Nihlathaktext();
+			}
+		if (!NTA_KillBoss(getLocaleString(22483))) 
+		return false;
+		if (NTConfig_ClearPosition) 
+		NTA_ClearPosition();
+		NTSI_PickItems();
+	return true;
+}
+function gotoCorrectTomb(){
+		var _tombs = getRoom();
+		var _correcttomb = _tombs.correcttomb;
+		if (!_correcttomb) 
+			return false;
+		var _tileid = _correcttomb - 66 + 38;
+		if (!NTM_MoveToObject(NTC_UNIT_TILE, _tileid)) 
+			return false;
+		if (!NTM_TakeStairs(_tileid, _tileid)) 
+			return false;
+		return true;
+}
+function openChestsInArea(){
+var ChestIds = [5,6,87,92,143,140,141,144,146,147,148, 176, 177, 181, 183, 198, 240 , 241 , 242 , 243, 329, 330, 331,332, 333, 334 , 335, 336,354, 355 , 356 ,371,387 , 389, 390, 391,397 , 405 , 406 , 407 , 413 , 420 , 424 , 425 , 430 , 431 , 432 , 433 , 454 , 455 , 501 , 502 ,504 , 505,580,581 ]
+var ChestLocs =[];
+	var unit = getPresetUnits(me.area);
+		if(unit){		
+		for (var j = 0; j < unit.length; j++){
+			for (var c = 0; c < ChestIds.length; c++){				
+				if (ChestIds[c] == unit[j].id){
+						ChestLocs.push([unit[j].roomx*5+unit[j].x,unit[j].roomy*5+unit[j].y])					
+				}
+			}
+		}
+		}
+		
+		while(ChestLocs.length > 0){
+			ChestLocs.sort(NTA_SortRoomInt);
+			var _room = ChestLocs.shift();
+			NTM_MoveTo(_room[0], _room[1]);		
+					var chest = NTC_GetUnit(NTC_UNIT_OBJECT, "chest");
+					if(chest){
+						do{		
+							if(getDistance(me.x,me.y,chest.x,chest.y)<5){
+								if(NTC_OpenChest(copyUnit(chest)))
+									NTSI_PickItems();
+							}
+						}while(chest.getNext());
+			}
+		}
+	return true;
+}
+*/

@@ -1,0 +1,92 @@
+RegisterEvent(EVENT_GAMEMSG, NT_GameMsgEvents);
+	
+function NTMain()
+{
+	Include("libs/common/NTCommon.ntl");
+	NTC_IncludeLibs();
+	NTC_IncludeConfig("NTBot/char_configs");
+	NT_LoadConfig();
+	NTA_Initialize();
+	
+	Print(COLOR_9 + "Hostile watcher v2 by kolton");
+	
+	while(1)
+	{
+		NTC_Delay(100);
+		var _unit = NTC_FindUnit(NTC_UNIT_PLAYER);
+		if(_unit)
+		{
+			do
+			{
+				if(GetPlayerFlag(me.gid, _unit.gid, 9) && GetDistance(me.x, me.y, _unit.x, _unit.y) < 40 && !NTC_InTown() && NTA_IsValidTarget(_unit))
+				{
+					NTC_SendMsgToScript("NTBotGame.ntj", "HOSTILE");
+					if(NTA_KillDumbass(_unit.gid))
+						Say(_unit.name + " got ass whooped");
+					NTC_SendMsgToScript("NTBotGame.ntj", "HOSTILE");
+				}
+			}while(_unit.GetNext());
+		}
+	}
+}
+
+function NT_GameMsgEvents(msg, type)
+{
+	if(type == 8 && msg.indexOf("hostility") != -1 || type == 9 && msg.indexOf("left") != -1)
+	{
+		var _player = GetPlayerUnit();
+
+		do
+		{
+			if(GetPlayerFlag(me.gid, _player.gid, 9))
+			{
+				Say(_player.name + " REALLY, lol");
+				break;
+			}
+		}while(_player.GetNext())
+	}
+}
+
+function NTA_KillDumbass(id)
+{
+	var _target;
+
+	if(NTConfig_AttackSkill[1] < 1)
+		return false;
+
+	_target = NTC_FindUnit(NTC_UNIT_PLAYER, id);
+
+	if(!_target)
+		return false;
+
+	if(_target.IsAttackable())
+	{
+		var _attackcount = 0;
+
+		while(_attackcount < 600 && NTA_IsValidTarget(_target))
+		{
+			if(NTA_Attack(_target, (_attackcount%30) == 0) < 2)
+				return false;
+
+			if(me.classid == 1 && GetDistance(me.x, me.y, _target.x, _target.y) < 10)
+			{
+				_castx =  _target.x > me.x ? _target.x+15 : _target.x-15;
+				_casty =  _target.y > me.y ? _target.y+15 : _target.y-15;
+				NTM_MoveTo(me.areaid, _castx, _casty);
+			}
+
+			_attackcount++;
+		}
+	}
+
+	return (_target.hp <= 0 || _target.mode == 0 || _target.mode == 17);
+}
+
+function NTA_IsValidTarget(target)
+{
+	if(target.mode == 17 || target.mode == 0 || NTC_InTown(target))
+		return false;
+
+	return true;
+}
+

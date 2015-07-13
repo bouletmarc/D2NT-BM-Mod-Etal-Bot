@@ -1,0 +1,9 @@
+<Fri, Sep 02, 03:02> - NTCountess.ntj : NTM_MoveToStair() failed
+<Fri, Sep 02, 15:00> - <ETAL Error> C:\Users\pink\Desktop\D2NT BM MOD\D2NT\scripts\NTBot\bots\NTDiablo.ntj (71) : ReferenceError: NTConfig_CSSealsOnly is not defined
+<Fri, Sep 02, 15:02> - <ETAL Error> C:\Users\pink\Desktop\D2NT BM MOD\D2NT\scripts\NTBot\bots\NTDiablo.ntj (73) : SyntaxError: return not in function
+<Fri, Sep 02, 15:30> - <ETAL Error> C:\Users\pink\Desktop\D2NT BM MOD\D2NT\scripts\NTBot\bots\NTDiablo.ntj (66) : ReferenceError: NTConfig_CSSealsOnly is not defined
+<Sat, Sep 03, 16:06> - NTBaal.ntj : NTC_FindUnit() failed
+<Sun, Sep 04, 09:37> - NTBaal.ntj : NTC_FindUnit() failed
+<Mon, Sep 05, 06:45> - NTPindleskin.ntj : NTM_TakeWaypoint() failed
+<Tue, Sep 06, 01:04> - NTAndariel.ntj : NTM_TakeWaypoint() failed
+<Tue, Sep 06, 01:05> - NTMephisto.ntj : NTM_TakeWaypoint() failed

@@ -1,0 +1,105 @@
+function NTMain(){
+
+	Include("libs/common/NTCommon.ntl");
+	NTC_IncludeLibs();
+	NTC_IncludeConfig("NTBot/char_configs");
+
+	var i;
+
+	NT_LoadConfig();
+	NTSI_LoadNIPFiles("NTBot/item_configs");
+
+	NTA_Initialize();
+
+	if(!NTTM_CheckAct())	{
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_CheckAct()");
+		return;
+	}
+	NTTMGR_TownManager();
+	if(me.areaid != 1){
+		if(!NTTM_TownMove("waypoint")){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+			return;
+		}
+		if(!NTM_TakeWaypoint(1)){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeWaypoint()");
+			return;
+		}
+	}	
+	NTC_SendLogToOOG(NTC_LOG_ITEM, COLOR_9 + " ip" + COLOR_3 + "[" + me.gameserverip.split(".")[3] + "]", 0);
+	if(NTGVCH_IpCheck()){		
+		NTC_SendLogToOOG(NTC_LOG_COMMON, COLOR_9 + "HOT IP FOUND!!!" + COLOR_3 + "[" + me.gameserverip.split(".")[3] + "]", 0);
+		me.maxgametime = 0;
+		SetStatusText(COLOR_1 + "IP FOUND!! " + "   [" + me.gameserverip.split(".")[3] + "] ");	
+		NTGVCH_AntiIdle();
+	}		
+	if(NTConfig_JustAHunter){
+		Print(COLOR_4 + " No luck!!! Time to waste time!! lest try to avoid R/D!!");
+		NTC_PingDelay(NTConfig_AvoidRD*1000);
+		Print(COLOR_4 + "Next game, better luck!! [[[[= <3!!");
+	}
+	else{
+		Print(COLOR_4 + " No HOT IP!!! ZzzZZzZZz, it's time-to-kill time!!");
+	}		
+	NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+}
+
+function NTGVCH_IpCheck() {
+	var _presentip = Number(me.gameserverip.split(".")[3]);
+	for (var i = 0; i < NTConfig_HotIP.length; i++) {
+		if (_presentip == NTConfig_HotIP[i]){
+			return true;
+		}
+	}
+	return false;
+}
+
+function NTT_PrintCoordinatesIPandGateway(){
+	NTC_Delay(1000);
+	while (me.areaid != 0){
+		NTC_Delay(3000);{		
+			Print("?c1 got to " + "Area: " + me.areaid + " X: " + me.x + " Y: " + me.y + " On: " + me.gatewayid + " IP: " + me.gameserverip);				
+		}
+	}
+}
+	
+function NTGVCH_AntiIdle(){
+	while (me.areaid != 0){
+		NTC_PingDelay(500);
+			Say("!HOT IP Found!! "  + "   [" + me.gameserverip.split(".")[3] + "] ");
+		NTC_PingDelay(2000);
+		NTTM_TownMove("waypoint")
+		Say("!HOT IP Found!! "  + "   [" + me.gameserverip.split(".")[3] + "] ");
+		NTC_PingDelay(2000);
+		
+		NTTM_TownMove("akara")
+		Say("!HOT IP Found!! "  + "   [" + me.gameserverip.split(".")[3] + "] ");
+		NTC_PingDelay(2000);
+			
+		NTTM_TownMove("stash")
+		Say("!HOT IP Found!! "  + "   [" + me.gameserverip.split(".")[3] + "] ");
+		NTC_PingDelay(2000);
+			
+		Say(NTConfig_SaySomethingNoob);
+		NTC_PingDelay(2000);
+
+		Say("!HOT IP Found!! "  + "   [" + me.gameserverip.split(".")[3] + "] ");
+		NTC_PingDelay(2000);
+			
+		NTTM_TownMove("charsi")
+		Say("!HOT IP Found!! "  + "   [" + me.gameserverip.split(".")[3] + "] ");
+		NTC_PingDelay(2000);
+			
+		Say("!Bring in your sitter");
+		NTC_PingDelay(2000);
+			
+		Say("!Exit game with me");
+		NTC_PingDelay(2000);
+			
+		Say("!Let's find another game");
+		NTC_PingDelay(2000);
+			
+			
+		NTC_PingDelay(4000);
+	}
+}

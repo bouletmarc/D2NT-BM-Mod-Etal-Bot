@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/628/Trunk/D2NT/scripts/NTBot/item_configs/extreme
+END
+set.nip
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/628/Trunk/D2NT/scripts/NTBot/item_configs/extreme/set.nip
+END
+craft.nip
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/628/Trunk/D2NT/scripts/NTBot/item_configs/extreme/craft.nip
+END
+NTItemAlias.ntl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/628/Trunk/D2NT/scripts/NTBot/item_configs/extreme/NTItemAlias.ntl
+END
+unique.nip
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/628/Trunk/D2NT/scripts/NTBot/item_configs/extreme/unique.nip
+END
+key.nip
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/628/Trunk/D2NT/scripts/NTBot/item_configs/extreme/key.nip
+END
+normal.nip
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/628/Trunk/D2NT/scripts/NTBot/item_configs/extreme/normal.nip
+END
+magic_rare.nip
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/628/Trunk/D2NT/scripts/NTBot/item_configs/extreme/magic_rare.nip
+END

@@ -1,0 +1,73 @@
+function NTT_PrintCoordinatesIPandGateway()	
+{
+	{
+	NTC_Delay(1000);
+
+	while (me.areaid != 0)
+		{
+		NTC_Delay(3000);	
+			{	
+			Print(COLOR_1 + " got to " + "Area: " + me.areaid + " X: " + me.x + " Y: " + me.y + " On: " + me.gatewayid + " IP: " + me.gameserverip);			
+			}	
+		}
+	}
+}
+	
+function NTT_AntiIdle()
+{
+while (me.areaid != 0)
+	{
+	NTC_PingDelay(500);
+	Print(COLOR_4 + " HOT IP Found!! " + NTConfig_HotIP + "");
+	Print(COLOR_4 + " HOT IP Found!! " + NTConfig_HotIP + "");
+	Print(COLOR_4 + " HOT IP Found!! " + NTConfig_HotIP + "");
+	NTC_PingDelay(1000);
+		if(!NTTM_TownMove("waypoint"))
+		{
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+			return;
+		}
+	
+		NTC_PingDelay(500);
+	
+		if(!NTTM_TownMove("akara"))
+		{
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+			return;
+		}
+		
+		NTC_PingDelay(500);
+		
+		if(!NTTM_TownMove("stash"))
+		{
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+			return;
+		}
+		
+		NTC_PingDelay(500);
+		Say(NTConfig_SaySomethingNoob);
+		NTC_PingDelay(1500);
+		
+		if(!NTTM_TownMove("charsi"))
+		{
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+			return;
+		}
+		
+		NTC_PingDelay(700);
+		Print(COLOR_4 + " Remember, pause key to pause/resume");
+		NTC_PingDelay(700);
+		Print(COLOR_4 + " Remember, pause key to pause/resume");
+		NTC_PingDelay(700);
+		Print(COLOR_4 + " Remember, pause key to pause/resume");
+		NTC_PingDelay(4000);
+		
+		if(!NTTM_TownMove("stash"))
+		{
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+			return;
+		}
+		
+		NTC_PingDelay(4000);
+	}
+}

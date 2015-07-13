@@ -1,0 +1,85 @@
+//tal tomb chest hunter by bigapple90
+function NTMain(){
+
+	var _target;
+	Include("libs/common/NTCommon.ntl");
+	NTC_IncludeLibs();
+	NTC_IncludeConfig("NTBot/char_configs");
+
+	NT_LoadConfig();
+	NTSI_LoadNIPFiles("NTBot/item_configs");
+
+	NTA_Initialize();
+
+	if(!NTTM_CheckAct()){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_CheckAct()");
+		return;
+	}
+	NTTMGR_TownManager();
+	if(!NTTM_TownMove("waypoint")){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTTM_TownMove()");
+		return;
+	}
+	if(!NTM_TakeWaypoint(46)){
+		NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeWaypoint()");
+		return;
+	}
+	NTP_DoPrecast(true);
+	if(NTConfig_OpenChestsInArea && NTU_DontOpenAreas()){
+		OpenChestsInArea();
+	}
+	var _taltomb;
+	var _stair = [69, 68, 67, 66, 70, 71, 72];
+	for(var i = 0; i < _stair.length; i++){
+		NTP_DoPrecast();
+		if(!NTM_MoveToStair(me.areaid, _stair[i])){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_MoveToStair()");
+			return;
+		}
+		if(!NTM_TakeStair(_stair[i])){
+			NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeStair()");
+			return;
+		}
+		if(NTConfig_ClearTombs){
+			NTA_ClearLevel()
+		}
+		NT_FindTalChest();	
+		if(i != 6){
+			if(!NTM_MoveToStair(me.areaid, 46)){
+				NTC_SendMsgToScript("NTBotGame.ntj", "NTM_MoveToStair()");
+				return;
+			}
+			if(!NTM_TakeStair(46)){
+				NTC_SendMsgToScript("NTBotGame.ntj", "NTM_TakeStair()");
+				return;
+			}
+		}        
+		else
+		NTC_SendMsgToScript("NTBotGame.ntj", "SCRIPT_END");
+	}
+}
+
+function NT_FindTalChest(){
+	var pre = GetPresetUnits(me.areaid, NTC_UNIT_OBJECT);
+	for (var i = 0; i < pre.length; i++){
+		if(pre[i].id == 397 || (pre[i].id >= 354 && pre[i].id <= 356) || (pre[i].id >= 405 && pre[i].id <= 407)){
+			NTM_MoveTo(me.areaid,(pre[i].roomx*5 + pre[i].x),(pre[i].roomy*5+pre[i].y));
+			_taltomb = false;
+			break;
+		}
+		_taltomb = true;
+	}
+	if(_taltomb)
+	Print("This is the real tomb, no chest here...");   
+	var _chest = NTC_FindUnit(NTC_UNIT_OBJECT, GetLocaleString(3260), 1);
+	if(NTConfig_ClearChestPosition)
+	NTA_ClearPosition(20, true);
+	if(_chest){
+		if(NTC_OpenChest(_chest)){
+			NTSI_PickItems();
+		}
+		if(NTConfig_OpenChestsInArea && NTU_DontOpenAreas()){
+			OpenChestsInArea();  
+		}
+	}
+}

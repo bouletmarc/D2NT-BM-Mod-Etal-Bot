@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/!svn/ver/769/Trunk/D2NT/sdk
+END
+skills.txt
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/109/Trunk/D2NT/sdk/skills.txt
+END
+classid.txt
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/769/Trunk/D2NT/sdk/classid.txt
+END
+npcmenuid.txt
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/109/Trunk/D2NT/sdk/npcmenuid.txt
+END
+states.txt
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/109/Trunk/D2NT/sdk/states.txt
+END
+quests.txt
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/109/Trunk/D2NT/sdk/quests.txt
+END
+getlocalestring.txt
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/769/Trunk/D2NT/sdk/getlocalestring.txt
+END
+modes.txt
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/109/Trunk/D2NT/sdk/modes.txt
+END
+uiflag.txt
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/109/Trunk/D2NT/sdk/uiflag.txt
+END
+bodylocations.txt
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/109/Trunk/D2NT/sdk/bodylocations.txt
+END
+areas.txt
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/109/Trunk/D2NT/sdk/areas.txt
+END
+itemflags.txt
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/109/Trunk/D2NT/sdk/itemflags.txt
+END
+misc.txt
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/769/Trunk/D2NT/sdk/misc.txt
+END
+shrines.txt
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/109/Trunk/D2NT/sdk/shrines.txt
+END
+stats.txt
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/109/Trunk/D2NT/sdk/stats.txt
+END
